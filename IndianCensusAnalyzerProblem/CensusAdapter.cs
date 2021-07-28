@@ -17,6 +17,8 @@ namespace IndianCensusAnalyzerProblem
             else if (Path.GetExtension(csvFilePath) != ".csv")
                 throw new CensusCustomException(CensusCustomException.ExceptionType.INVALID_FILE_TYPE, "Invalid file type");
             censusData = File.ReadAllLines(csvFilePath);
+            if (censusData[0] != dataHeaders)
+                throw new CensusCustomException(CensusCustomException.ExceptionType.INCORRECT_HEADER, "Incorrect Header");
             return censusData;
         }
     }
