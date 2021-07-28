@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace IndianCensusAnalyzerProblem
 {
-   public class CensusAdapter:CsvOperations
+   public class CsvStatesAdapter:CsvOperations
     {
-        public override string[] GetCensusData(string csvFilePath,string dataHeaders)
+        public override string[] GetCensusData(string csvStateFilePath, string dataHeaders)
         {
-            string[] censusData;
-            if (!File.Exists(csvFilePath))
+            string[] statusData;
+            if (!File.Exists(csvStateFilePath))
                 throw new CensusCustomException(CensusCustomException.ExceptionType.FILE_NOT_FOUND, "File not found!");
-            else if (Path.GetExtension(csvFilePath) != ".csv")
+            else if (Path.GetExtension(csvStateFilePath) != ".csv")
                 throw new CensusCustomException(CensusCustomException.ExceptionType.INVALID_FILE_TYPE, "Invalid file type");
-            censusData = File.ReadAllLines(csvFilePath);
-            if (censusData[0] != dataHeaders)
+            statusData = File.ReadAllLines(csvStateFilePath);
+            if (statusData[0] != dataHeaders)
                 throw new CensusCustomException(CensusCustomException.ExceptionType.INCORRECT_HEADER, "Incorrect Header");
-            return censusData;
+            return statusData;
         }
     }
 }

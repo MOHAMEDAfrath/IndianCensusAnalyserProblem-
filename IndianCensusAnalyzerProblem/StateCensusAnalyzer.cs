@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace IndianCensusAnalyzerProblem
 {
-    public class CensusAnalyzer:CensusAdapter,ICountryCsvOperations
+    public class StateCensusAnalyzer:CsvStatesAdapter,IStateCodeCsvOperations
     {
-        public void LoadCountryCsv(string fileCsvPath,string header)
+        public void LoadStateCsv(string fileCsvPath, string header)
         {
             try
             {
-                string[] result = GetCensusData(fileCsvPath,header);
-                foreach(var member in result.Skip(1))
+                string[] result = GetCensusData(fileCsvPath, header);
+                foreach (var member in result.Skip(1))
                 {
                     //Checks for delimiter 
                     if (!member.Contains(","))
@@ -21,11 +21,10 @@ namespace IndianCensusAnalyzerProblem
                 }
 
             }
-            catch(CensusCustomException ex)
+            catch (CensusCustomException ex)
             {
                 throw;
             }
         }
-        
     }
 }
