@@ -7,13 +7,16 @@ namespace IndianCensusProject
     public class UnitTest1
     {
         CensusAdapter censusAdapter;
+        CensusAnalyzer censusAnalyzer;
         string censusFilePath = @"C:\Users\mohamedafrath.s\source\repos\IndianCensusAnalyzerProblem\IndianCensusAnalyzerProblem\IndianStateCensusInformation.csv";
         string invalidFileCsvPath = @"C:\Users\mohamedafrath.s\source\repos\IndianCensusAnalyzerProblem\IndianCensusAnalyzerProblem\InvalidCensusFile.csv";
         string invalidFileTypePath = @"C:\Users\mohamedafrath.s\source\repos\IndianCensusAnalyzerProblem\IndianCensusAnalyzerProblem\InvalidCensusFile.csa";
+        string invalidDelimiterFilePath = @"C:\Users\mohamedafrath.s\source\repos\IndianCensusAnalyzerProblem\IndianCensusAnalyzerProblem\IndianStateCensusWithInvalidDelimiter.csv";
         [TestInitialize]
         public void SetUp()
         {
             censusAdapter = new CensusAdapter();
+            censusAnalyzer = new CensusAnalyzer();
         }
         //TC1.1:Given the States Census CSV file, Check to ensure the Number of Record matches
         [TestMethod]
@@ -54,6 +57,21 @@ namespace IndianCensusProject
             catch (CensusCustomException ex)
             {
                 Assert.AreEqual(ex.Message, "Invalid file type");
+            }
+        }
+        //TC1.4:Given the State Census CSV File when correct but delimiter incorrect Returns a custom Exception
+        [TestMethod]
+        [TestCategory("Invalid Delimiter")]
+        public void TestMethodToCheckInvalidDelimiter()
+        {
+            try
+            {
+                censusAnalyzer.LoadCsv(invalidDelimiterFilePath, "State,Population,Increase,Area(Km2),Density,Sex-Ratio,Literacy");
+
+            }
+            catch (CensusCustomException ex)
+            {
+                Assert.AreEqual(ex.Message, "Invalid Delimiter");
             }
         }
     }
