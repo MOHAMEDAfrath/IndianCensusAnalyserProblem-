@@ -6,8 +6,9 @@ namespace IndianCensusProject
     [TestClass]
     public class UnitTest1
     {
-        CsvOperations censusAdapter;
-       ICountryCsvOperations censusAnalyzer;
+        CsvOperations censusAdapter, stateAdapter;
+        ICountryCsvOperations censusAnalyzer;
+        IStateCodeCsvOperations stateCodeCsv;
         string censusFilePath = @"C:\Users\mohamedafrath.s\source\repos\IndianCensusAnalyzerProblem\IndianCensusAnalyzerProblem\IndianStateCensusInformation.csv";
         string invalidFileCsvPath = @"C:\Users\mohamedafrath.s\source\repos\IndianCensusAnalyzerProblem\IndianCensusAnalyzerProblem\InvalidCensusFile.csv";
         string invalidFileTypePath = @"C:\Users\mohamedafrath.s\source\repos\IndianCensusAnalyzerProblem\IndianCensusAnalyzerProblem\InvalidCensusFile.csa";
@@ -27,6 +28,8 @@ namespace IndianCensusProject
         {
             censusAdapter = new CensusAdapter();
             censusAnalyzer = new CensusAnalyzer();
+            stateAdapter = new CsvStatesAdapter();
+            stateCodeCsv = new StateCensusAnalyzer();
         }
         //TC1.1:Given the States Census CSV file, Check to ensure the Number of Record matches
         [TestMethod]
@@ -105,7 +108,7 @@ namespace IndianCensusProject
         {
             //Excluding Header
             int expected = 11;
-            string[] result = censusAdapter.GetCensusData(stateCodeFilePath, "SerailNo,StateName,StateCode");
+            string[] result = stateAdapter.GetCensusData(stateCodeFilePath, "SerailNo,StateName,StateCode");
             int actual = result.Length - 1;
             Assert.AreEqual(expected, actual);
         }
@@ -116,7 +119,7 @@ namespace IndianCensusProject
         {
             try
             {
-                censusAdapter.GetCensusData(stateCodeInvalidFilePath, "SerailNo,StateName,StateCode");
+                stateAdapter.GetCensusData(stateCodeInvalidFilePath, "SerailNo,StateName,StateCode");
 
             }
             catch (CensusCustomException ex)
@@ -132,7 +135,7 @@ namespace IndianCensusProject
         {
             try
             {
-                censusAdapter.GetCensusData(invalidFileTypePath, "SerailNo,StateName,StateCode");
+                stateAdapter.GetCensusData(invalidFileTypePath, "SerailNo,StateName,StateCode");
 
             }
             catch (CensusCustomException ex)
@@ -147,7 +150,7 @@ namespace IndianCensusProject
         {
             try
             {
-                censusAnalyzer.LoadCountryCsv(stateCodeInvalidFileDelimiterPath, "SerailNo.StateName.StateCode");
+                stateCodeCsv.LoadStateCsv(stateCodeInvalidFileDelimiterPath, "SerailNo.StateName.StateCode");
 
             }
             catch (CensusCustomException ex)
@@ -162,14 +165,13 @@ namespace IndianCensusProject
         {
             try
             {
-                censusAnalyzer.LoadCountryCsv(stateCodeInvalidFileHeaderPath, "SerailNo,StateName,StateCode");
+                stateCodeCsv.LoadStateCsv(stateCodeInvalidFileHeaderPath, "SerailNo,StateName,StateCode");
             }
             catch (CensusCustomException ex)
             {
                 Assert.AreEqual(ex.Message, "Incorrect Header");
             }
         }
-
 
     }
 }
