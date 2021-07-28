@@ -9,6 +9,7 @@ namespace IndianCensusProject
         CensusAdapter censusAdapter;
         string censusFilePath = @"C:\Users\mohamedafrath.s\source\repos\IndianCensusAnalyzerProblem\IndianCensusAnalyzerProblem\IndianStateCensusInformation.csv";
         string invalidFileCsvPath = @"C:\Users\mohamedafrath.s\source\repos\IndianCensusAnalyzerProblem\IndianCensusAnalyzerProblem\InvalidCensusFile.csv";
+        string invalidFileTypePath = @"C:\Users\mohamedafrath.s\source\repos\IndianCensusAnalyzerProblem\IndianCensusAnalyzerProblem\InvalidCensusFile.csa";
         [TestInitialize]
         public void SetUp()
         {
@@ -37,6 +38,21 @@ namespace IndianCensusProject
             }catch(CensusCustomException ex)
             {
                 Assert.AreEqual(ex.Message, "File not found!");
+            }
+        }
+        //TC1.3:Given the State Census CSV File when correct but type incorrect Returns a custom Exception
+        [TestMethod]
+        [TestCategory("Invalid File Type")]
+        public void TestMethodToCheckInvalidFileType()
+        {
+            try
+            {
+                censusAdapter.GetCensusData(invalidFileTypePath, "State,Population,Increase,Area(Km2),Density,Sex-Ratio,Literacy");
+
+            }
+            catch (CensusCustomException ex)
+            {
+                Assert.AreEqual(ex.Message, "Invalid file type");
             }
         }
     }
